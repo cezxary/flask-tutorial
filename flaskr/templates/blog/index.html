@@ -5,12 +5,12 @@ Created on Wed Nov  4 18:40:06 2020
 @author: cezxary
 """ !-->
 
-{% extends base.html %}
+{% extends 'base.html' %}
 
 {% block header %}
   <h1>{% block title %}Posts{% endblock %}</h1>
   {% if g.user %}
-    <a class="action" href"{{ url_for('blog.create') }}">New</a>
+    <a class="action" href="{{ url_for('blog.create') }}">New</a>
   {% endif %}
 {% endblock %}
 
