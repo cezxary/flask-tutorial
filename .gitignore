@@ -5,3 +5,5 @@ htmlcov/
 flaskr.egg-info/
 .pytest_cache/
 .coverage
+dist/
+build/

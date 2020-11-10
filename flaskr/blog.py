@@ -97,3 +97,14 @@ def delete(id):
     db.execute('DELETE FROM post WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('blog.index'))
+
+
+@bp.route('/post/<int:id>', methods=['GET'])
+def show_post(id):
+    db = get_db()
+    post = db.execute(
+        'SELECT p.id, title, body, created, author_id, username'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' WHERE p.id = ?', (id,)).fetchone()
+    
+    return render_template('blog/show_post.html', post=post)
