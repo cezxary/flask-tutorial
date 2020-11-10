@@ -96,3 +96,8 @@ def test_delete(auth, app, client):
         db = get_db()
         post = db.execute('SELECT * FROM post WHERE id=1').fetchone()
         assert post is None
+
+def test_show_post(auth, client):
+    auth.login()
+    response = client.get('/post/1')
+    assert b"<h1>test title</h1>" in response.data

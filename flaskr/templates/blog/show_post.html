@@ -8,14 +8,13 @@ Created on Tue Nov 10 22:08:31 2020
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}{{post['title']}}{% endblock %}
+  <h1>{% block title %}{{post['title']}}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <article class="post">
     <header>
       <div>
-        <h1>{{ post['title'] }}</h1>
         <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
       </div>
       {% if g.user['id'] == post['author_id'] %}
