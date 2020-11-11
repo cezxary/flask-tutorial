@@ -20,6 +20,14 @@ Created on Tue Nov 10 22:08:31 2020
       {% if g.user['id'] == post['author_id'] %}
         <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
       {% endif %}
+      <div>
+      {% print(liked) %}
+      {% if liked %}
+        <a href="{{url_for('post.unlike_post', id=post['id'])}}">You like this post!</a>
+      {% else %}
+        <a href="{{url_for('post.like_post', id=post['id'])}}">Like</a>
+      {% endif %}
+      </div>
     </header>
     <p class="body">{{ post['body'] }}</p>
   </article>
