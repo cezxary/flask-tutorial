@@ -6,3 +6,7 @@ VALUES
 INSERT INTO post (id, title, body, author_id, created)
 VALUES
   (1, 'test title', 'test' || x'0a' || 'body', 1, '2018-01-01 00:00:00');
+  
+INSERT INTO likes (user_id, post_id)
+VALUES
+  (1, 1)

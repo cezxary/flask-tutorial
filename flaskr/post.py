@@ -39,7 +39,7 @@ def liked(id):
         return False
     
 
-@bp.route('/post/<int:id>/like')
+@bp.route('/post/<int:id>/like', methods=('GET',))
 @login_required
 def like_post(id):
     db = get_db()
@@ -53,7 +53,7 @@ def like_post(id):
     return redirect(url_for("post.show_post", id=id))
 
 
-@bp.route('/post/<int:id>/unlike')
+@bp.route('/post/<int:id>/unlike', methods=('GET',))
 @login_required
 def unlike_post(id):
     db = get_db()
