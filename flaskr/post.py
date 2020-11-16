@@ -15,15 +15,46 @@ from flaskr.db import get_db
 bp = Blueprint('post', __name__)
 
 
-@bp.route('/post/<int:id>', methods=['GET'])
+# TODO: known issue - sending multiple post requests results in registering one
+# comment multiple times - would be best to check if incoming comment has
+# the same body as the last one.
+@bp.route('/post/<int:id>', methods=('GET','POST'))
 def show_post(id):
+    if request.method == 'POST':
+        comment_body = request.form['body']
+        error = None
+        db = get_db()
+        
+        if not (len(comment_body) > 0):
+            error = 'You should put some text in the comment!'
+        
+        if error is None:
+            db.execute(
+                'INSERT INTO comment (body, post_id, user_id)'
+                ' VALUES (?, ?, ?)', (comment_body, id, g.user['id'])
+            )
+            db.commit()
+            
+            return redirect(url_for('post.show_post', id=id))
+        
+        flash(error)
+    
     db = get_db()
     post = db.execute(
         'SELECT p.id, title, body, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' WHERE p.id = ?', (id,)).fetchone()
-        
-    return render_template('post/show_post.html', post=post, liked=liked(id))
+        ' WHERE p.id = ?', (id,)
+    ).fetchone()
+    
+    comments = db.execute(
+        'SELECT p.id, c.body, c.created, author_id, username'
+        ' FROM comment c '
+        ' JOIN post p ON c.post_id = p.id'
+        ' JOIN user u ON c.user_id = u.id'
+        ' WHERE p.id = ?', (id,)
+    ).fetchall()
+    
+    return render_template('post/show_post.html', post=post, liked=liked(id), comments=comments)
 
 
 def liked(id):
@@ -48,7 +79,7 @@ def like_post(id):
         db.execute(
             "INSERT INTO likes (user_id, post_id)"
             " VALUES (?, ?)", (g.user['id'], id)
-            )
+        )
         db.commit()
     return redirect(url_for("post.show_post", id=id))
 
@@ -60,7 +91,6 @@ def unlike_post(id):
     db.execute(
         "DELETE FROM likes"
         " WHERE user_id = ? AND post_id = ?", (g.user['id'], id)
-        )
+    )
     db.commit()
     return redirect(url_for("post.show_post", id=id))
-    

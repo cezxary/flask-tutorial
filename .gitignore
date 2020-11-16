@@ -7,3 +7,4 @@ flaskr.egg-info/
 .coverage
 dist/
 build/
+_DB_DUMP/
