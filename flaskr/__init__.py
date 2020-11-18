@@ -47,6 +47,9 @@ def create_app(test_config=None):
     
     from . import post
     app.register_blueprint(post.bp)
+    
+    from . import comment
+    app.register_blueprint(comment.bp)
 
     return app
 

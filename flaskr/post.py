@@ -18,27 +18,8 @@ bp = Blueprint('post', __name__)
 # TODO: known issue - sending multiple post requests results in registering one
 # comment multiple times - would be best to check if incoming comment has
 # the same body as the last one.
-@bp.route('/post/<int:id>', methods=('GET','POST'))
+@bp.route('/post/<int:id>', methods=('GET',))
 def show_post(id):
-    if request.method == 'POST':
-        comment_body = request.form['body']
-        error = None
-        db = get_db()
-        
-        if not (len(comment_body) > 0):
-            error = 'You should put some text in the comment!'
-        
-        if error is None:
-            db.execute(
-                'INSERT INTO comment (body, post_id, user_id)'
-                ' VALUES (?, ?, ?)', (comment_body, id, g.user['id'])
-            )
-            db.commit()
-            
-            return redirect(url_for('post.show_post', id=id))
-        
-        flash(error)
-    
     db = get_db()
     post = db.execute(
         'SELECT p.id, title, body, created, author_id, username'
@@ -59,10 +40,15 @@ def show_post(id):
 
 def liked(id):
     db = get_db()
-    is_liked = db.execute(
-        'SELECT * FROM likes'
-        ' WHERE user_id = ? AND post_id = ?', (g.user['id'], id)
-    ).fetchone()
+
+    try:
+        is_liked = db.execute(
+            'SELECT * FROM likes'
+            ' WHERE user_id = ? AND post_id = ?', (g.user['id'], id)
+        ).fetchone()
+    except TypeError: 
+        # if user is not logged in, g.user['id
+        is_liked = None
     
     if is_liked:
         return True

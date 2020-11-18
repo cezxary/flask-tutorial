@@ -22,9 +22,9 @@ Created on Tue Nov 10 22:08:31 2020
       {% endif %}
       <div>
       {% if liked %}
-        <a href="{{url_for('post.unlike_post', id=post['id'])}}">You like this post!</a>
+        <a href="{{ url_for('post.unlike_post', id=post['id']) }}">You like this post!</a>
       {% else %}
-        <a href="{{url_for('post.like_post', id=post['id'])}}">Like</a>
+        <a href="{{ url_for('post.like_post', id=post['id']) }}">Like</a>
       {% endif %}
       </div>
     </header>
@@ -32,11 +32,11 @@ Created on Tue Nov 10 22:08:31 2020
   </article>
   <section class="comment-section">
     <h3>Comments</h3>
-    <form method="post">
-      <label for="comment">Write new comment:</label>
-      <textarea name="body" id="body">{{ request.form['body'] }} </textarea>
-      <input type="submit" value="Comment">
-    </form>
+    {% if 'comment' in request.path %}
+      {% block new_comment %}{% endblock %}
+    {% else %}
+      <a href="{{ url_for('comment.comment', id=post['id']) }}"> Write a new comment!</a>
+    {% endif %}
     {% for comment in comments %}
     <div class="comment">
       <div class="about">by {{ comment['username'] }} on {{ comment['created'].strftime('%Y-%m-%d') }}</div>
