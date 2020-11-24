@@ -9,4 +9,8 @@ VALUES
   
 INSERT INTO likes (user_id, post_id)
 VALUES
-  (1, 1)
+  (1, 1);
+  
+INSERT INTO comment(id, user_id, post_id, body, created)
+VALUES
+  (1, 1, 1, 'test comment', '2018-01-01 00:00:00');

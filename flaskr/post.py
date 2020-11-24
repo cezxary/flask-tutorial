@@ -47,7 +47,9 @@ def liked(id):
             ' WHERE user_id = ? AND post_id = ?', (g.user['id'], id)
         ).fetchone()
     except TypeError: 
-        # if user is not logged in, g.user['id
+        # if user is not logged in, g.user['id'] doens't exist. I don't
+        # remember how to check if g.user variable is available, so I'm using
+        # not-so-clean try-except block that does it's job good enough
         is_liked = None
     
     if is_liked:

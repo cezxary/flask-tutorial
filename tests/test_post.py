@@ -14,6 +14,11 @@ def test_show_post(auth, client):
     assert b"<h1>test title</h1>" in response.data
     
     
+def test_show_post_logged_out(client):
+    response = client.get('/post/1')
+    assert b"<h1>test title</h1>" in response.data
+    
+    
 @pytest.mark.parametrize('path', (
     '/post/1/like',
     '/post/1/unlike'))
@@ -69,4 +74,5 @@ def test_unliked(auth, client, app):
     auth.login()
     
     response = client.get('/post/1')
-    assert b'Like</a>' in response.data
+    assert b'Like</a>' in response.data    
+
