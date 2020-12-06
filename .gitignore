@@ -1,5 +1,6 @@
 flask-env/
 instance/
+flaskr/__pycache__/
 __pycache__/
 htmlcov/
 flaskr.egg-info/

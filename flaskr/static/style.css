@@ -29,6 +29,7 @@ nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
 .content label { font-weight: bold; margin-bottom: 0.5em; }
 .content input, .content textarea { margin-bottom: 1em; }
 .content textarea { min-height: 12em; resize: vertical; }
+.content textarea .tags { height: 3em; resize: vertical; }
 .comment-section { background-color: #E8E8E8; margin: 0.5em; }
 .comment .about {color: slategrey; font-style: italic; }
 input.danger { color: #cc2f2e; }

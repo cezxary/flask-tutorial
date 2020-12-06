@@ -29,6 +29,13 @@ Created on Tue Nov 10 22:08:31 2020
       </div>
     </header>
     <p class="body">{{ post['body'] }}</p>
+    <div class="tag_wrapper">
+      <hr>
+      Tags:
+    {% for tag in tags %}
+      <a class="tag" href="{{ url_for('tag.show_tag', tagname=tag['name']) }}">#{{ tag['name'] }}</a> 
+    {% endfor %}
+    </div>
   </article>
   <section class="comment-section">
     <h3>Comments</h3>

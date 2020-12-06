@@ -27,6 +27,9 @@ def show_post(id):
         ' WHERE p.id = ?', (id,)
     ).fetchone()
     
+    if post is None:
+        abort(404, 'Post id {0} doesn\'t exist'.format(id))
+    
     comments = db.execute(
         'SELECT p.id, c.body, c.created, author_id, username'
         ' FROM comment c '
@@ -35,7 +38,19 @@ def show_post(id):
         ' WHERE p.id = ?', (id,)
     ).fetchall()
     
-    return render_template('post/show_post.html', post=post, liked=liked(id), comments=comments)
+    tags = db.execute(
+        'SELECT t.name'
+        ' FROM post_taglist ptl'
+        ' JOIN post p ON ptl.post_id = p.id'
+        ' JOIN tag t ON ptl.tag_id = t.id'
+        ' WHERE ptl.post_id = ?', (id,)
+    ).fetchall()
+    
+    return render_template('post/show_post.html', 
+                           post=post, 
+                           liked=liked(id), 
+                           comments=comments, 
+                           tags=tags)
 
 
 def liked(id):

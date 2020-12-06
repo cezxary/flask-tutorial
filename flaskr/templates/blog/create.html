@@ -17,6 +17,8 @@ Created on Wed Nov  4 18:57:09 2020
     <input name="title" id="title" value="{{ request.form['title'] }}" required>
     <label for="body">Body</label>
     <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+    <label for="tags">Tags</label>
+    <textarea name="tags" id="tags" rows="1">{{ request.form['tags'] }}</textarea>
     <input type="submit" value="Save">
   </form>
 {% endblock %}

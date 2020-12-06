@@ -51,5 +51,8 @@ def create_app(test_config=None):
     from . import comment
     app.register_blueprint(comment.bp)
 
+    from . import tag
+    app.register_blueprint(tag.bp)
+
     return app
 

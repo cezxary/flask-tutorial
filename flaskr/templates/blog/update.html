@@ -18,6 +18,14 @@ Created on Wed Nov  4 21:13:48 2020
       value="{{ request.form['title'] or post['title'] }}" required>
     <label for="body">Body</label>
     <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
+    <label for="tags">Tags</label>
+    <textarea name="tags" id="tags" rows="1">
+    {% if taglist|length == 0 %}
+      {{ request.form['tags'] }}
+    {% else %}
+      {% for tag in taglist %}#{{ tag }} {% endfor %}
+    {% endif %}
+    </textarea>
     <input type="submit" value="Save">
   </form>
   <hr>
